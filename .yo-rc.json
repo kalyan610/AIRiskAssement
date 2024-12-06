@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.14.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "ai-rsik-assemnet-1-0",
+    "libraryId": "3b0a375c-72f6-479b-ad85-7b866d260a3d",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "AIRsikAssemnet1.0",
+    "solutionShortDescription": "AIRsikAssemnet1.0 description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

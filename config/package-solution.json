@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "ai-rsik-assemnet-1-0-client-side-solution",
+    "id": "3b0a375c-72f6-479b-ad85-7b866d260a3d",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "AIRsikAssemnet1.0 description"
+      },
+      "longDescription": {
+        "default": "AIRsikAssemnet1.0 description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "ai-rsik-assemnet-1-0 Feature",
+        "description": "The feature that activates elements of the ai-rsik-assemnet-1-0 solution.",
+        "id": "50b63d09-3188-4bd8-a611-1e2f8126c738",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/ai-rsik-assemnet-1-0.sppkg"
+  }
+}
