@@ -21,6 +21,8 @@ export default class Service {
         console.log(this.UpdateSectionIII);
         console.log(this.Approve);
         console.log(this.Reject);
+        console.log(this.Approve1);
+        console.log(this.Reject1);
         console.log(this.OnRequestSubmit);
         sp.setup({
             sp: {
@@ -125,6 +127,16 @@ export default class Service {
 
 }
 
+
+public async getCurrentUserEmail():Promise<any> {
+
+    return sp.web.currentUser.get().then((user) => {
+        console.log(user);
+        return user;
+    });
+
+}
+
    public async getUserByLogin(LoginName:string):Promise<any>{
     try{
         const user = await sp.web.siteUsers.getByLoginName(LoginName).get();
@@ -173,7 +185,9 @@ public async Save (
     MyScope:string,
     MyNotScope:string,
     MyEvidence:string,
-    MyProjectClassifications:string
+    MyProjectClassifications:string,
+    MyBussOwner:string,
+    MyTechOwner:string
    )
 
 {
@@ -205,8 +219,14 @@ public async Save (
     Notinscopeofproject_x002f_system:MyNotScope,
     Evidenceofresearch:MyEvidence,
     Project_x0020_Classifications:MyProjectClassifications,
+    BusinessOwners:MyBussOwner,
+    TechnicalOwners:MyTechOwner,
     Title:"Record Saved",
-    SubmissionStatus:"SecI"
+    SubmissionStatus:"SecI",
+    Status :"Open",
+    LocalLabStatus:"",
+    GlobalGenAIForumStatus:""
+    
     
 
    }).then (async r => {
@@ -246,6 +266,8 @@ public async SaveSectionII (
     MyNotScope:string,
     MyEvidence:string,
     MyProjectClassifications:string,
+    MyBussOwner:string,
+    MyTechOwner:string,
 
     MyWilltheAIsystemcaptureSecII:string,
     MyWilltheAIsystembeaugmentedwithCaSecII:string,
@@ -286,6 +308,7 @@ public async SaveSectionII (
     MyInspiteofotherresponsesintheHighCaseII:string,
     MyArumentSecIItxt:string,
 
+
     //end
     
   
@@ -297,6 +320,8 @@ public async SaveSectionII (
     let VarMyArra={"results":MyBussinessowner};
     let VarMyArra1={"results":MyTechnicalOwner};
     let MySubmissionStatus="";
+    let MyAssementStatus='';
+    
 
     if(MyDoestheAIsystemrelyontheuntargetCaseII=="Yes"|| MyDoestheAIsystemrelyonsubliminalCaseII=="Yes"|| MyDoestheAIsystemanalyzeorinferemoCaseII=="Yes" ||
       MyDoestheAIsystemusebiometricdatatCaseII=="Yes" || MyDoestheAIsystemmakeriskassessmenCaseII=="Yes" || MyIstheAIsysteminvolvedinsocialscoCaseII=="Yes" ||
@@ -308,6 +333,8 @@ public async SaveSectionII (
     {
 
         MySubmissionStatus="Closed";
+        MyAssementStatus="Closed";
+        
 
     }
 
@@ -316,6 +343,8 @@ public async SaveSectionII (
     {
 
         MySubmissionStatus="Request";
+        MyAssementStatus="Open"
+        
 
     }
     
@@ -342,6 +371,8 @@ public async SaveSectionII (
     Notinscopeofproject_x002f_system:MyNotScope,
     Evidenceofresearch:MyEvidence,
     Project_x0020_Classifications:MyProjectClassifications,
+    BusinessOwners:MyBussOwner,
+    TechnicalOwners:MyTechOwner,
 
 
 //end
@@ -399,7 +430,11 @@ public async SaveSectionII (
     
     
     Title:"Record Saved SecII",
-    SubmissionStatus:MySubmissionStatus
+    SubmissionStatus:MySubmissionStatus,
+    Status :MyAssementStatus,
+    LocalLabStatus:"",
+    GlobalGenAIForumStatus:""
+    
     
     
 
@@ -472,6 +507,10 @@ private  async UpdateSectionII(MyRecordId:number,
 
         let MySubmissionStatus="";
 
+        let MyAssementStatus="";
+
+        
+
     if(MyDoestheAIsystemrelyontheuntargetCaseII=="Yes"|| MyDoestheAIsystemrelyonsubliminalCaseII=="Yes"|| MyDoestheAIsystemanalyzeorinferemoCaseII=="Yes" ||
       MyDoestheAIsystemusebiometricdatatCaseII=="Yes" || MyDoestheAIsystemmakeriskassessmenCaseII=="Yes" || MyIstheAIsysteminvolvedinsocialscoCaseII=="Yes" ||
       MyDoestheAIsystemengageinmasssurveCaseII=="Yes" || MyDoestheAIsystemmakesignificantleCaseII=="Yes" ||  MyIstheAIsystemdesignedtoinfluenceCaseII=="Yes" ||
@@ -482,6 +521,8 @@ private  async UpdateSectionII(MyRecordId:number,
     {
 
         MySubmissionStatus="Closed";
+        MyAssementStatus="Closed";
+       
 
     }
 
@@ -491,6 +532,8 @@ private  async UpdateSectionII(MyRecordId:number,
     {
 
         MySubmissionStatus="Request";
+        MyAssementStatus="Open";
+        
 
     }
 
@@ -554,7 +597,11 @@ private  async UpdateSectionII(MyRecordId:number,
     Project_x0020_Classifications:MyProjectClassifications,
 
     Title:"SectionII Record Updated",
-    SubmissionStatus:MySubmissionStatus
+    SubmissionStatus:MySubmissionStatus,
+    Status :MyAssementStatus,
+    LocalLabStatus:"",
+    GlobalGenAIForumStatus:""
+    
 
         //End
 
@@ -581,7 +628,7 @@ private  async UpdateSectionII(MyRecordId:number,
     }
 
 
-    private async Approve(MyRecordId:number,MySubmissionStatus:string)
+    private async Approve(MyRecordId:number,MySubmissionStatus:string,LocalLabReviewer:string,MYDate:string)
 
     {
 
@@ -596,7 +643,13 @@ private  async UpdateSectionII(MyRecordId:number,
             let Varmyval = await list.items.getById(MyRecordId).update({
 
         Title:"Record Approved",
-        SubmissionStatus:MySubmissionStatus
+        SubmissionStatus:MySubmissionStatus,
+        ApproverId:LocalLabReviewer,
+        Status :"Global GenAI Forum Review",
+        LocalLabStatus:"Approved",
+        GlobalGenAIForumStatus:"",
+        LocalLabActionedDate:MYDate
+        
 
             }).then (async r => {
               
@@ -616,7 +669,7 @@ private  async UpdateSectionII(MyRecordId:number,
        
     }
 
-    private async Reject(MyRecordId:number,MySubmissionStatus:string)
+    private async Reject(MyRecordId:number,MySubmissionStatus:string,LocalLabReviewer:string,MYDate:string)
 
     {
 
@@ -631,7 +684,96 @@ private  async UpdateSectionII(MyRecordId:number,
             let Varmyval = await list.items.getById(MyRecordId).update({
 
         Title:"Record Rejected",
-        SubmissionStatus:MySubmissionStatus
+        SubmissionStatus:MySubmissionStatus,
+        ApproverId:LocalLabReviewer,
+        Status :"Closed",
+        LocalLabStatus:"Rejected",
+        GlobalGenAIForumStatus:"",
+        LocalLabActionedDate:MYDate
+      
+
+            }).then (async r => {
+              
+                return Myval;
+            
+                })
+            
+               return Varmyval;
+                    
+              }
+            
+                
+              catch (error) {
+                console.log(error);
+              }
+
+       
+    }
+
+
+    private async Approve1(MyRecordId:number,MySubmissionStatus:string,GlobalLabReviewer:string,MYDate:string)
+
+    {
+
+        let Myval='Completed';
+    
+        let MyListTitle='Project Assessment';
+
+        try
+            {
+    
+            let list = sp.web.lists.getByTitle(MyListTitle);
+            let Varmyval = await list.items.getById(MyRecordId).update({
+
+        Title:"Record Approved",
+        SubmissionStatus:MySubmissionStatus,
+        GlobalGenAIForumReviewerId:GlobalLabReviewer,
+        Status :"Open",
+        LocalLabStatus:"Approved",
+        GlobalGenAIForumStatus:"Approved",
+        ActionedDate:MYDate
+        
+
+            }).then (async r => {
+              
+                return Myval;
+            
+                })
+            
+               return Varmyval;
+                    
+              }
+            
+                
+              catch (error) {
+                console.log(error);
+              }
+
+       
+    }
+
+    private async Reject1(MyRecordId:number,MySubmissionStatus:string,GlobalLabReviewer:string,MYDate:string)
+
+    {
+
+        let Myval='Completed';
+    
+        let MyListTitle='Project Assessment';
+
+        try
+            {
+    
+            let list = sp.web.lists.getByTitle(MyListTitle);
+            let Varmyval = await list.items.getById(MyRecordId).update({
+
+        Title:"Record Rejected",
+        SubmissionStatus:MySubmissionStatus,
+        GlobalGenAIForumReviewerId:GlobalLabReviewer,
+        Status :"Closed",
+        LocalLabStatus:"Approved",
+        GlobalGenAIForumStatus:"Rejected",
+        ActionedDate:MYDate
+      
 
             }).then (async r => {
               
@@ -793,8 +935,8 @@ public async SaveSectionIII (
 
     //END
 
-    Title:"Record Saved SecIII",
-
+    Title:"Record Saved SecIII"
+   
     
     
 
@@ -854,7 +996,11 @@ private  async UpdateSectionIII(
         Project_x0020_Classifications:MyProjectClassifications,
 
         Title:"SectionIII Record Updated",
-        SubmissionStatus:"Completed"
+        SubmissionStatus:"Completed",
+        Status :"Completed",
+        LocalLabStatus:"Approved",
+        GlobalGenAIForumStatus:"Approved"
+        
     
             //End
     
@@ -885,7 +1031,7 @@ public async getItemByID(ItemID: any): Promise<any> {
     try {
 
 const selectedList = 'Project Assessment';
-const Item: any[] = await sp.web.lists.getByTitle(selectedList).items.select("*,BusinessOwner/EMail,TechnicalOwner/EMail,Geography/Title,CapcoDomain/Title,ProjectStage/Title,ProjectClassification/Title").expand("BusinessOwner,TechnicalOwner,Geography,CapcoDomain,ProjectStage,ProjectClassification").filter("ID eq '" + ItemID + "'").get();
+const Item: any[] = await sp.web.lists.getByTitle(selectedList).items.select("*,BusinessOwner/EMail,TechnicalOwner/EMail,Approver/EMail,GlobalGenAIForumReviewer/EMail,Geography/Title,CapcoDomain/Title,ProjectStage/Title,ProjectClassification/Title,Author/EMail").expand("BusinessOwner,TechnicalOwner,Approver,GlobalGenAIForumReviewer,Geography,CapcoDomain,ProjectStage,ProjectClassification,Author").filter("ID eq '" + ItemID + "'").get();
         return Item[0];
     } catch (error) {
         console.log(error);
@@ -921,6 +1067,9 @@ private  async OnRequestSubmit(
     SubmissionStatus:MyStatus,
     ProjectClassificationId:MyProjectClassificationVal,
     Project_x0020_Classifications:MyProjectClassifications,
+    Status :"Local Lab Review",
+    LocalLabStatus:"",
+    GlobalGenAIForumStatus:""
 
         //End
 
